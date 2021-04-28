@@ -28,23 +28,31 @@ Assuming the data is a SIGPROC filterbank file.
       Total Bandwidth (MHz) = 4500             
 ```
 ```sh
--------------------------------------
-This program comes with absolutely no warrenty.
-You have used the following input values:
-Station: Effelsberg, X = 4033947.2355 m, Y = 486990.7943 m, Z = 4900431.0017 m
-Source: SGR1935+2154, ra = 19h34m55.680s, DEC = +21d53m48.20s
-DM = 332.7206 pc/cc, DM_constant = 4.14880568679703 GHz^2 cm^3 pc^-1 ms
-Reference frequency = 1400.0 MHz
-MJD-input timescale: utc
-Start of the dataset(s): [56789.12345, 56789.12345, 56789.12345]
-Burst timestamps (seconds): [0.0, 123.11, 99.87]
--------------------------------------
-Saving DataFrame to results.pkl
--------------------------------------
-                MJD_start   tstamp_ref_freq_sec   mjd_topo_ref_freq_utc   mjd_topo_inf_freq_utc   mjd_bary_inf_freq_utc   mjd_bary_inf_freq_tdb
-0  56789.1234499999991385    0.0000000000000000  56789.1234499999991385  56789.1234418485837523  56789.1249510153138544  56789.1257286229738384
-1  56789.1234499999991385  123.1099999999999994  56789.1248748842554050  56789.1248667328400188  56789.1263759965077043  56789.1271536041676882
-2  56789.1234499999991385   99.8700000000000045  56789.1246059027762385  56789.1245977513608523  56789.1261069967295043  56789.1268846043894882
+python filterbank_cutter.py -L 5200.00 -H 7800.0 -i infile.fil -o outfile.fil
+Imported filterbank from PRESTO
+Reading original filterbank file infile.fil
+Will extract
+    889 channels (196 to 1084 incl.)
+    (Original num chans: 1536)
+Extacting data from infile.fil
+infile.fil has been succesfully closed
+Cutting down some of the frequency channels
+Output spectra has shape: (174734, 889)
+Creating output file: outfile.fil
+Writing data to new filterbank file
+```
+```sh
+readfile outfile.fil 
+Assuming the data is a SIGPROC filterbank file.
+
+
+1: From the SIGPROC filterbank file 'outfile.fil':
+                            ...
+         Central freq (MHz) = 6500             
+          Low channel (MHz) = 5199.21875       
+         High channel (MHz) = 7800.78125       
+        Channel width (MHz) = 2.9296875        
+         Number of channels = 889       
 ```
 
 ## Contributing
