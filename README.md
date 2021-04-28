@@ -7,10 +7,25 @@ A command-line python script that cuts [sigproc filterbank](http://sigproc.sourc
    ```sh
    python burst_toa_converter.py --help
    ```
+   
+## Requirements
+* [Numpy](https://numpy.org/)
+* [PRESTO](https://github.com/scottransom/presto/) 
+* PRESTO's filterbank.py needs to be in your $PATH.
  
 ## Example
 ```sh
-python burst_toa_converter.py -MJD_start 56789.12345 -MJD_scale utc -burst_tstamps 0.0,123.11,99.87 -save True -outname results.pkl
+readfile infile.fil
+Assuming the data is a SIGPROC filterbank file.
+
+1: From the SIGPROC filterbank file 'infile.fil':
+                            ...
+         Central freq (MHz) = 6126.46484375    
+          Low channel (MHz) = 3877.9296875     
+         High channel (MHz) = 8375             
+        Channel width (MHz) = 2.9296875        
+         Number of channels = 1536
+      Total Bandwidth (MHz) = 4500             
 ```
 ```sh
 -------------------------------------
@@ -31,12 +46,6 @@ Saving DataFrame to results.pkl
 1  56789.1234499999991385  123.1099999999999994  56789.1248748842554050  56789.1248667328400188  56789.1263759965077043  56789.1271536041676882
 2  56789.1234499999991385   99.8700000000000045  56789.1246059027762385  56789.1245977513608523  56789.1261069967295043  56789.1268846043894882
 ```
-
-## Requirements
-
-* [Numpy](https://numpy.org/)
-* [Pandas](https://pandas.pydata.org/)
-* [Astropy](https://www.astropy.org/)
 
 ## Contributing
 Please open an issue or send me an email.
