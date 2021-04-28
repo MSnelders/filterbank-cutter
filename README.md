@@ -1,11 +1,11 @@
 ## filterbank-cutter
-A command-line python script that cuts [sigproc filterbank](http://sigproc.sourceforge.net/) (see http://sigproc.sourceforge.net/sigproc.pdf for the documentation) files in frequency. 
+A command-line python script that cuts [sigproc filterbank](http://sigproc.sourceforge.net/) (see http://sigproc.sourceforge.net/sigproc.pdf for the documentation) files in frequency. It should work with both Python 2 and 3. 
 
 ## Useage
 1. Copy the script to your local machine.
 2. Run the following to see all the options:
    ```sh
-   python burst_toa_converter.py --help
+   python filterbank_cutter.py --help
    ```
    
 ## Requirements
@@ -53,7 +53,6 @@ Assuming the data is a SIGPROC filterbank file.
         Channel width (MHz) = 2.9296875        
          Number of channels = 889       
       Total Bandwidth (MHz) = 2604.4921875     
-
 ```
 
 ## Contributing
