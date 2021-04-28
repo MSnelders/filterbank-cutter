@@ -45,7 +45,6 @@ Writing data to new filterbank file
 readfile outfile.fil 
 Assuming the data is a SIGPROC filterbank file.
 
-
 1: From the SIGPROC filterbank file 'outfile.fil':
                             ...
          Central freq (MHz) = 6500             
