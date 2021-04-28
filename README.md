@@ -52,6 +52,8 @@ Assuming the data is a SIGPROC filterbank file.
          High channel (MHz) = 7800.78125       
         Channel width (MHz) = 2.9296875        
          Number of channels = 889       
+      Total Bandwidth (MHz) = 2604.4921875     
+
 ```
 
 ## Contributing
@@ -59,4 +61,4 @@ Please open an issue or send me an email.
 
 ## Contact
 Mark Snelders - m dot p dot snelders at uva dot nl  
-Project Link: [github.com/MSnelders/FRB-Burst-TOA](https://github.com/MSnelders/FRB-Burst-TOA)
+Project Link: [github.com/MSnelders/filterbank-cutter/](https://github.com/MSnelders/filterbank-cutter/)
