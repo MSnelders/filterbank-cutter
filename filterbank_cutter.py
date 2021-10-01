@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 # Program that will cut a filterbank file in frequency. Written by Kenzie Nimmo and Mark Snelders (Feb 2021) with inspiration from Patrick Lazarus. It has been tested with python 2.7, but it probably works with other versions aswell. 
+# v1: cut based on frequency limits
+# v2: cut based on frequency limits OR channel number(s)
 
 from argparse import ArgumentParser
 import numpy as np
