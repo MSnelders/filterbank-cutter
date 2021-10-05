@@ -9,24 +9,42 @@ import numpy as np
 import copy
 import os
 
-def main(args):
+# try to import the filterbank module
+try:
+    import filterbank
+    print("Imported filterbank")
+except ImportError:
     try:
-        import filterbank
-        print("Imported filterbank")
+        from presto import filterbank
+        print("Imported filterbank from PRESTO")
     except ImportError:
-        try:
-            from presto import filterbank
-            print("Imported filterbank from PRESTO")
-        except ImportError:
-            raise ImportError('Cannot find the filterbank.py module')
+        raise ImportError('Cannot find the filterbank.py module')
 
+def main(args):   
+    # check if outfile already exists
     if os.path.exists(args.outname):
         raise ValueError("Ouput file already exists.")
 
+    # read in filterbank file
     infile = args.infile
     print("Reading original filterbank file {}".format(infile))
     fil_org = filterbank.FilterbankFile(infile)
     
+    # Check if input is valid:
+    if (args.chan_no_L is not None) or (args.chan_no_H is not None):
+        if (args.lo_freq is not None) or (args.hi_freq is not None):
+            raise ValueError("If low and/or high channel NUMBER are given, --lo_freq and --hi_freq must be None")
+    
+    # Check if input is valid:
+    if (args.lo_freq is not None) or (args.hi_freq is not None):
+        if (args.chan_no_L is not None) or (args.chan_no_H is not None):
+            raise ValueError("If low and/or high channel FREQUENCY are given, --chan_no_L and --chan_no_H must be None")
+    
+    # read in filterbank file
+    infile = args.infile
+    print("Reading original filterbank file {}".format(infile))
+    fil_org = filterbank.FilterbankFile(infile)
+
     # Some checks for frequency
     maxfreq = np.max(fil_org.frequencies)
     minfreq = np.min(fil_org.frequencies)
@@ -37,16 +55,36 @@ def main(args):
         if args.lo_freq >= args.hi_freq:
             raise ValueError("High frequency must be greater than low frequency")
 
-    # Determine lo/hi channels to write to file
-    if args.lo_freq is None:
-        lochan = np.argmin(fil_org.frequencies)
-    else:
-        lochan = np.argmin(np.abs(fil_org.frequencies - args.lo_freq))
+    if (int == type(args.chan_no_H) == type(args.chan_no_L)):
+        if args.chan_no_L >= args.chan_no_H:
+            raise ValueError("High frequency channel number must be greater than low frequency channel number.")
 
-    if args.hi_freq is None:
-        hichan = np.argmax(fil_org.frequencies)
+    # check if chan_no_L is valid
+    if (int == type(args.chan_no_L)) and (args.chan_no_L < 0):
+        raise ValueError("Low frequency channel number must be equal or greater than 0.")
+    
+    # check if chan_no_H is valid
+    if (int == type(args.chan_no_H)) and (args.chan_no_H > (fil_org.nchan - 1)):
+        raise ValueError("Requested high channel number ({}) is greater than the amount of channels (minus 1) available ({})".format(args.chan_no_H, fil_org.nchan - 1))
+
+    # Determine lo/hi channels to write to file
+    # low chan/freq
+    if (int == type(args.chan_no_L)):
+        lochan = args.chan_no_L
+    elif (float == type(args.lo_freq)):
+        lochan = np.argmin(np.abs(fil_org.frequencies - args.lo_freq))
     else:
+        print("Do I get here? lochan")
+        lochan = np.argmin(fil_org.frequencies)
+
+    # high chan/freq
+    if (int == type(args.chan_no_H)):
+        hichan = args.chan_no_H
+    elif (float == type(args.hi_freq)):
         hichan = np.argmin(np.abs(fil_org.frequencies - args.hi_freq))
+    else:
+        print("Do I get here? hichan")
+        hichan = np.argmax(fil_org.frequencies)
 
     # flip if lo > hi:
     if lochan > hichan:
@@ -114,6 +152,12 @@ if __name__ == '__main__':
                     help="Desired high frequency (in MHz) for output file. Note: "
                         "actual high frequency will be rounded to the nearest"
                         "channel (Default: Don't truncate high-freq channels)",
+                    default=None)
+    parser.add_argument("-chan_L", "--chan_no_L", dest="chan_no_L", type=int,
+            help="Desired lower channel number (inclusive!) default: None. If given, must be int",
+                    default=None)
+    parser.add_argument("-chan_H", "--chan_no_H", dest="chan_no_H", type=int,
+            help="Desired higher channel number (inclusive!) default: None. If given, must be int",
                     default=None)
     parser.add_argument("-o", "--outname", dest='outname', action='store', required=True,
                     help="The name of the output file.")
